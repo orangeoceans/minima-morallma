@@ -4,6 +4,8 @@ A little project to experiment with LLM finetuning by making LLaMA sound like th
 Adorno was famously a bit of a curmudgeon, which has spawned infinite variations of "What would Adorno think of X if he was alive today?"
 Look no further. Here are all of the answers anyone has ever wanted, mostly comprehensible but probably entirely nonsensical.
 
+Found here on HuggingFace: https://huggingface.co/orangeoceans/llama-2-7b-minima-morallma
+
 ## Background
 ### Finetuning LLMs
 This project was inspired by a friend's attempt at [finetuning LLaMA to output Stellaris empire descriptions](https://horenbergerb.github.io/2023/09/09/finetuningllamaforcreativetasks.html) with only 30(!!!) samples entirely locally on his own computer(!!!).
