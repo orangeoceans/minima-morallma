@@ -46,9 +46,16 @@ Most of the hyperparameters were cribbed from various Internet articles (such as
 
 For the LoRA rank, I found that 128 was pretty good. It's large enough to output text that makes some sense, though I would caution everyone against taking them seriously as philosophy. 
 
-With the right hyperparameters, training proceeds fairly smoothly. 
+With the right hyperparameters, training proceeds fairly smoothly. As noted in the section above, eval loss tends to increase at every step, even though we don't observe overfitting qualitatively, so it isn't particularly useful as a metric:
 
-Here are some possibly interesting details about how text output changes over the course of finetuning.
+<p float="left">
+  <img src="/train_loss.png" width="400" />
+  <img src="/eval_loss.png" width="400" /> 
+</p>
+
+*(Plots courtesy of Tensorboard)*
+
+Speaking of which, here are some possibly interesting qualitative details about how text output changes over the course of finetuning.
 
 As a baseline, an untuned LLaMA 2 gives the following for the title `Internet Memes`:
 > Ah, the internet memes. The latest manifestation of the bourgeoisie's attempt to distract and pacify the masses. A fleeting, ephemeral form of entertainment, designed to fill the void of meaningless existence. The internet meme: a symbol of the decay of culture. In a world where the trivial is elevated to the status of the sublime, the meme serves as a reminder of the abyssal depths of human desperation. A desperate attempt to find solace in the abyss of meaninglessness, the meme is the ultimate expression of the bourgeoisie's disavowal of responsibility and the rejection of the search for truth.
@@ -92,7 +99,7 @@ I quite like this one because it's tangentially related to the title, but in a s
 
 This one is about N Sync and Justin Timberlake, *not* Weezer like the prompt had asked! Interesting that it chose a completely different band.
 
-#### Sonic the Hedgehog (Training Loss ~0.06)
+#### Sonic the Hedgehog (Training Loss ~0.2)
 > The video-games of the current generation are, as is commonly known, the play-forms chosen by children in order to vicariously experience the pleasure of killing. But this is only one aspect of the total social economy of violence. The realted play-forms, which are developed in response to the needs of the all too real economy, are just as much a part of the latter as the toy-guns and finger-held-lights which were the scandals of my childhood. I remember how my brother and I enthusiastically played together with our first electric train, sent to us as a birthday present by my uncle, a conductor on the Rhine. We set up the train on its track, around the curved edge of the table, and sent it careering through the house, over the bumps, turning corners, and finally crashing into the wall of the living-room. This was so pleasurable, that we couldn't stop playing with it, even when the train was completely wrecked and no longer operable. Something of this has not been extinguished by the game-consoles of today. They still have the same name, "trains," and even the same stationery, but they are no longer sent as birthday presents, and they endlessly crash into each other, without producing the wall-building effect. They are toys of destruction, in which the destruction itself is already the principle of fun. Just as the action-figures of Superman and Batman are actually dolls, so too is the "Sonic the Hedgehog" really a toy for the destruction of the controls. Its success is easily explicable in the light of this schema. It is not a question of the banal "sexual repression," which allegedly causes children to fixate on aggressive forms of play, but rather the prevalence of an unconscious, neutral-animalistic pleasure in the relations of children to their toys.
 
 This one stops making any sense about halfway through, but I like the anecdote here about playing with trains as children. This anecdote is not present at all in Minima Moralia, so it was either learned from some other Adorno work during pre-training, or made up entirely as an Adorno-sounding anecdote!
