@@ -79,6 +79,8 @@ Which is still a bit repetitive, as it starts most of its sentences with "They..
 
 In this section I'll provide some examples of the output at various training losses. Notably, it seems as the training loss gets lower, the generated aphorism is *less and less on-topic to the title given in the prompt*. I think this is likely because LLaMA starts out inclined to generate on-topic responses, which is gradually tuned out of LLaMA as Adorno's aphorism titles are rarely straightforwardly related to the aphorism itself. As such, the most useful model to play around with is not the one with a lower training loss at ~0.04 (which still doesn't overfit necessarily!) but a slightly "worse" one at ~0.2, which will actually give answers relevant to the prompt.
 
+Note that all of these examples have been abrdiged. It seems like minima-moraLLMa doesn't actually know when to stop an aphorism. Maybe the stop token was dropped somehow in training?
+
 ### Good Ones
 
 As far as I can tell, no significant part of the following examples are ripped directly from the training samples. They might be ripped from some other Adorno work, but remarkably the model isn't overfitting despite being only finetuned on 153 samples.
@@ -114,3 +116,22 @@ This one stops making any sense about halfway through, but I like the anecdote h
 
 It seems here that the model fixated on "Sonic" and ignored "the Hedgehog" entirely.
 
+### Now you're Jerry Seinfeld
+
+As a further experiment, I wanted to check if the model was finetuned to be better at being Adorno specifically or if it's better at impersonating people in general (after all, finetuning might be just as much about aligning LLMs away from the mountains of garbage they were trained on). So, I modified the prompt to be:
+
+> [INST] <<SYS>>You are Jerry Seinfeld, writing a collection of short standup acts. Here is your latest transcript.<</SYS>>  Sonic the Hedgehog [/INST]
+
+Here's the output of our minima-moraLLMa:
+
+> You know who's got it good these days? Sonic the Hedgehog. I mean, sure, he's got the whole speed thing going on, but that's not the best part. No, the best part is that he's got his own video game. That's right, a whole game dedicated solely to his speedy adventures. So not only can he race around at lightning speed, but he can also do it in the comfort of his own home. I mean, what more could a hedgehog want? except maybe a wife and kids, but I think that's against the rules of the Sonic game.Anyway, I was thinking about all this, and I realized something. Sonic is really just a metaphor for life. Think about it. He's got all these power-ups, right? The shield, the shoes, the rings. And in real life, we've all got our own little power-ups too. Maybe it's a good meal, maybe it's a good night's sleep, maybe it's a nice pair of shoes. And just like Sonic, we use these power-ups to help us through the tough spots. When the going gets tough, and the obstacles are piling up, we reach for our power-ups, and suddenly we're feeling invincible again.Of course, there are also the negative power-ups, the ones that take away a life or a shield. Those are the little setbacks that happen to us all the time, and they can really put a damper on things. But even those can be used to our advantage. Think about it. When you lose a life in a Sonic game, you go back to the beginning. But in real life, when you make a mistake, you get to learn from it and move on. No need to start over from the beginning, unless of course you're talking about a marriage, in which case, you might want to start over from the beginning, and fast.
+
+It's not especially good, but compare that to the output of the base model:
+
+> (clears throat) Oh, great. Another one of these "Sonic the Hedgehog" things. (sighs) You know, I've been thinking, what's the deal with these hedgehogs? They're always running around, spinning, and doing all this crazy stuff. (chuckles) I mean, I get it, they're fast, but do they have to be so... (exaggerated expression)
+> 
+> You know what I'd like to see? A Sonic the Hedgehog standup comedy special. (smirks) Just imagine it, me up on stage, making fun of his little blue spiky self. (chuckles) "Hey, have you guys seen Sonic's hair? It's like he stuck his finger in a light socket! (giggles) And don't even get me started on his shoes. (mimes tying shoelaces) What's the deal with those things? Do they come in sizes smaller than 'world record for the most ties in one shoe'? (winks)
+>
+> But you know what the best part is? (leaning in) Sonic's gotta be the only hedgehog who's never had a bad hair day. (chuckles) I mean, that guy's got a permanent 'just woke up from a nap' look going on. (smirks) It's like he's always ready for a good time. (winks)
+
+Which is significantly worse. From my limited experimentation it seems like LLaMA is by default very exuberant while doing impersonations. Adorno, on the other hand, is known for being the opposite of exuberant. I wonder if minima-moraLLMa is better at impersonating Jerry Seinfeld simply because the weird exuberance of base LLaMA has been toned down. 
