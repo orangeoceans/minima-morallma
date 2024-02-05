@@ -19,7 +19,7 @@ As noted in his post (which is a very nice read) this was enabled by three devel
 However, I don't have a very beefy computer, so I used Google Colab instead, and spent around 10 bucks. 
 
 ### The Subject Matter
-In the 1940s-50s Adorno wrote a collection of aphorisms, which are basically bite-sized texts each ruminating on a subject very roughly encapsulated by an often-cryptic title. Luckily for us, this provides a very nice format for text generation: the user would give a title as a prompt, and the model would output a corresponding aphorism. As an example, consider the following aphorism:
+In the 1940s-50s Adorno wrote *Minima Moralia*, a collection of 153 aphorisms, which are basically bite-sized texts each ruminating on a subject very roughly encapsulated by an often-cryptic title. Luckily for us, this provides a very nice format for text generation: the user would give a title as a prompt, and the model would output a corresponding aphorism. As an example, consider the following aphorism:
 
 > Final clarity
 > 
@@ -27,20 +27,28 @@ In the 1940s-50s Adorno wrote a collection of aphorisms, which are basically bit
 
 Challenging stuff.
 
-One obviously difficulty with this is that Adorno's philosophy is quite challenging and often deliberately self-contradictory. Furthermore, Minima Moralia only gives us 150 aphorisms, which is more than my friend's 30 Stellaris empires, but still not a lot given the complexity of their subject matter. I don't think that it will be feasible or even possible to finetune an Adorno LLM to actually *make sense*, so at most I expect the output to *sound* like Adorno. 
+One obvious difficulty with this is that Adorno's philosophy is quite challenging and often deliberately self-contradictory. Furthermore, Minima Moralia only gives us 153 aphorisms, which is more than my friend's 30 Stellaris empires, but still not a lot given the complexity of their subject matter. I don't think that it will be feasible or even possible to finetune an Adorno LLM to actually *make sense*, so at most I expect the output to *sound* like Adorno. 
 
 ## Some Technical Details
 ### Dataset
 
-The full text of Minima Moralia is dumped in this repo (`minima_moralia_full_text.txt`) which is converted into a set of training samples with a simple script (`minima_moralia_to_json.py`). As is recommended by many a source online, I've formatted each sample with the template: 
+The full text of Minima Moralia contains 153 aphorisms. They're dumped in this repo (`minima_moralia_full_text.txt`) which is converted into a set of training samples with a simple script (`minima_moralia_to_json.py`). As is recommended by many a source online, I've formatted each sample with the template: 
 ```
 <s>[INST]<<SYS>>You are Theodor Adorno. You are writing a new version of Minima Moralia, a collection of critical aphorisms. Here is one such aphorism.<</SYS>>TITLE [/INST] BODY TEXT
 ```
-Variations upon this prompt doesn't seem to affect too much, at least in the few tests I've attempted.
+Variations upon this prompt doesn't seem to affect too much, at least in the few tests I've attempted. 
+
+To begin, I used a standard train:eval split of 8:2, which gives me 122 training samples and 31 test samples. However, I found that the evaluation loss wasn't very useful -- it tended to go up, which usually signifies overfitting, even though the text output was qualitatively getting *better*. Judging by [some others' experiences](https://github.com/artidoro/qlora/issues/152), it seems eval loss is just inconsistent when it comes to LLM finetuning. As such, in all subsequent training runs, I used all 153 aphorisms as training samples with no evaluation.
 
 ### Training
 
-Training proceeded fairly smoothly. Here are some possibly interesting details.
+Most of the hyperparameters were cribbed from various Internet articles (such as [this one](https://mlabonne.github.io/blog/posts/Fine_Tune_Your_Own_Llama_2_Model_in_a_Colab_Notebook.html)) as well as input from friends. Others (such as the learning rate) were derived from trial and error.
+
+For the LoRA rank, I found that 128 was pretty good. It's large enough to output text that makes some sense, though I would caution everyone against taking them seriously as philosophy. 
+
+With the right hyperparameters, training proceeds fairly smoothly. 
+
+Here are some possibly interesting details about how text output changes over the course of finetuning.
 
 As a baseline, an untuned LLaMA 2 gives the following for the title `Internet Memes`:
 > Ah, the internet memes. The latest manifestation of the bourgeoisie's attempt to distract and pacify the masses. A fleeting, ephemeral form of entertainment, designed to fill the void of meaningless existence. The internet meme: a symbol of the decay of culture. In a world where the trivial is elevated to the status of the sublime, the meme serves as a reminder of the abyssal depths of human desperation. A desperate attempt to find solace in the abyss of meaninglessness, the meme is the ultimate expression of the bourgeoisie's disavowal of responsibility and the rejection of the search for truth.
