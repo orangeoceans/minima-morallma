@@ -5,7 +5,8 @@ Adorno was famously a bit of a curmudgeon, which has spawned infinite variations
 Look no further. Here are all of the answers anyone has ever wanted, mostly comprehensible but probably entirely nonsensical.
 
 **Scroll to the bottom for examples!**
-Found here on HuggingFace: https://huggingface.co/orangeoceans/llama-2-7b-minima-morallma
+
+The finetuned model can be found here on HuggingFace: https://huggingface.co/orangeoceans/llama-2-7b-minima-morallma
 
 ## Background
 ### Finetuning LLMs
