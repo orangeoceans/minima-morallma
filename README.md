@@ -4,6 +4,7 @@ A little project to experiment with LLM finetuning by making LLaMA sound like th
 Adorno was famously a bit of a curmudgeon, which has spawned infinite variations of "What would Adorno think of X if he was alive today?"
 Look no further. Here are all of the answers anyone has ever wanted, mostly comprehensible but probably entirely nonsensical.
 
+**Scroll to the bottom for examples!**
 Found here on HuggingFace: https://huggingface.co/orangeoceans/llama-2-7b-minima-morallma
 
 ## Background
